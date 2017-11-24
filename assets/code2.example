@@ -1,0 +1,12 @@
+// search songs
+function searchByTitle({ value }) {
+  const songs = MusicExplorer.search({ field: 'title', value });
+
+  return { data: songs };
+}
+
+// micro js example
+module.exports = async req => {
+  const payload = await json(req);
+  return searchByTitle(payload);
+};

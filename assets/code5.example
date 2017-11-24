@@ -1,0 +1,13 @@
+const { ServiceBroker } = require('moleculer');
+
+const broker = new servicebroker({
+  nodeid: 'node-1',
+  logger: console,
+  transporter: "nats://localhost:4222"
+});
+
+broker.createService(
+  require('./services/songs')
+);
+
+broker.start();
