@@ -32,7 +32,6 @@ import { Diagram } from '../components';
 
 // Require CSS
 require('normalize.css');
-require('spectacle/lib/themes/default/index.css');
 
 const images = {
   molecules: require('../assets/8803.jpg'),
@@ -43,17 +42,28 @@ const images = {
   mono: require('../assets/mono.png'),
   showme: require('../assets/show-me.png'),
   distributed: require('../assets/distributed.png'),
-  whatIsThat: require('../assets/what-is-that.gif')
+  whatIsThat: require('../assets/what-is-that.gif'),
+  musicExplorer: require('../assets/music-explorer.png'),
+  gateway: require('../assets/gateway.png'),
+  take: require('../assets/take.png'),
+  desc: require('../assets/desc.png')
 };
 
 preloader(images);
 
-const theme = createTheme();
+const theme = createTheme(null, {
+  global: {
+    body: { fontSize: '2em' },
+    '_:-moz-tree-row(hover), .spectacle-deck': {
+      perspective: '1200px'
+    }
+  }
+});
 
 export default class Presentation extends React.Component {
   render() {
     return (
-      <Deck transition={['slide']} transitionDuration={300} theme={theme} progress="none">
+      <Deck transition={['slide']} transitionDuration={300} theme={theme} progress="none" contentWidth={1200}>
         <Slide bgColor="white">
           <Image src={images.banner} />
         </Slide>
@@ -106,13 +116,13 @@ export default class Presentation extends React.Component {
           lang="js"
           code={require('raw-loader!../assets/code2.example')}
           ranges={[
-            { loc: [0, 12], title: 'HTTP Service' },
-            { loc: [2, 3], note: 'Find songs related with the user query search' },
-            { loc: [4, 5], note: 'Return a specific HTTP response' },
-            { loc: [7, 12], note: 'We export a function to run a HTTP server' },
-            { loc: [0, 12], title: 'What if I need a `search by artist` service?' },
-            { loc: [2, 3], title: 'What is `MusicExplorer`?' },
-            { loc: [2, 3], title: 'What if is another service?' }
+            { loc: [0, 17], title: 'HTTP Service' },
+            { loc: [2, 6], note: 'Find songs related with the user query search' },
+            { loc: [7, 8], note: 'Return a specific HTTP response' },
+            { loc: [10, 15], note: 'We export a function to run a HTTP server' },
+            { loc: [0, 17], title: 'What if I need a `search by artist` service?' },
+            { loc: [2, 6], title: 'What is `MusicExplorer`?' },
+            { loc: [2, 6], title: 'What if is another service?' }
           ]}
         />
         <Slide>
@@ -147,9 +157,10 @@ export default class Presentation extends React.Component {
           <Heading size={3} caps>Concepts</Heading>
           <List>
             <Appear><ListItem>Service <i className="em em-package" /></ListItem></Appear>
-            <Appear><ListItem>Node <i className="em em-bag" /></ListItem></Appear>
+            <Appear><ListItem>Node <i className="em em-ghost" /></ListItem></Appear>
             <Appear><ListItem>Service Broker <i className="em em-godmode" /></ListItem></Appear>
             <Appear><ListItem>Transporter <i className="em em-electric_plug" /></ListItem></Appear>
+            <Appear><ListItem>Gateway <i className="em em-door" /></ListItem></Appear>
           </List>
         </Slide>
         <Slide>
@@ -161,18 +172,26 @@ export default class Presentation extends React.Component {
           lang="js"
           code={require('raw-loader!../assets/code3.example')}
           ranges={[
-            { loc: [0, 64], title: 'The `Songs` Service' },
+            { loc: [0, 49], title: 'The `Songs` Service' },
             { loc: [0, 1], title: 'It\'s just a module' },
             { loc: [1, 2], note: 'With a name' },
-            { loc: [3, 9], note: 'With an object where you can store every settings/options to your service' },
-            { loc: [10, 25], note: 'Define your actions handler' },
-            { loc: [17, 21], note: 'We are calling an action from other service: soundcloud' },
-            { loc: [26, 35], note: 'You can subscribe to events' },
-            { loc: [36, 42], note: 'You can also create private functions in the Service' },
-            { loc: [43, 63], title: 'There are some lifecycle service events' },
-            { loc: [43, 49], note: 'Fired when the service instance created' },
-            { loc: [50, 56], note: 'Fired when `broker.start()` called' },
-            { loc: [57, 63], note: 'Fired when `broker.stop()` called' }
+            { loc: [3, 6], note: 'With an object where you can store every settings/options to your service' },
+            { loc: [7, 22], note: 'Define your actions handler' },
+            { loc: [8, 9], note: 'Identified with a name' },
+            { loc: [8, 9], note: 'We can use async/await!' },
+            { loc: [8, 9], note: 'ctx is a context instance which contains all the request information' },
+            { loc: [9, 10], note: 'We extract the value params' },
+            { loc: [11, 18], note: 'We are calling an action from other service: musicExplorer' },
+            { loc: [11, 18], note: 'The response is a promise' },
+            { loc: [12, 13], note: '<service-name>.<action-name>' },
+            { loc: [13, 17], note: 'We pass the params to the remote action' },
+            { loc: [19, 20], note: 'Return the songs' },
+            { loc: [23, 30], note: 'You can subscribe to events' },
+            { loc: [31, 34], note: 'You can also create private functions in the Service' },
+            { loc: [35, 49], title: 'There are some lifecycle service events' },
+            { loc: [35, 38], note: 'Fired when the service instance created' },
+            { loc: [39, 42], note: 'Fired when `broker.start()` called' },
+            { loc: [43, 46], note: 'Fired when `broker.stop()` called' }
           ]}
         />
         <Slide>
@@ -191,25 +210,38 @@ export default class Presentation extends React.Component {
           lang="js"
           code={require('raw-loader!../assets/code4.example')}
           ranges={[
-            { loc: [0, 11], title: 'Service Broker' },
-            { loc: [2, 6], title: 'It\'s the main component of Moleculer' },
-            { loc: [2, 6], title: 'It handles services & events, calls actions and communicates with remote nodes.' },
-            { loc: [2, 6], title: 'You need to create an instance of ServiceBroker on every node.' },
+            { loc: [0, 17], title: 'Service Broker' },
+            { loc: [0, 1], note: 'It\'s the main component of Moleculer' },
+            { loc: [0, 1], note: 'It handles services & events, calls actions and communicates with remote nodes.' },
+            { loc: [2, 6], note: 'You need to create an instance of ServiceBroker on every node.' },
             { loc: [3, 4], note: 'It identifies a node in a cluster when there are many nodes' },
             { loc: [4, 5], note: 'Logger class. In production you can use an external logger e.g. winston or pino' },
-            { loc: [7, 8], note: 'We create the `songs` service' },
-            { loc: [8, 9], note: 'We create the `musicExplorer` service' },
-            { loc: [9, 11], note: 'Start the node instance' }
+            { loc: [7, 10], note: 'We load the `songs` service' },
+            { loc: [11, 14], note: 'We load the `musicExplorer` service' },
+            { loc: [15, 17], note: 'Start the node instance' }
           ]}
         />
         <Slide>
-          <Heading size={3} caps>Transporter</Heading>
-          <List>
-            <Appear><ListItem>communicates with other nodes</ListItem></Appear>
-            <Appear><ListItem>It transfers events, calls requests, processes responses</ListItem></Appear>
-            <Appear><ListItem>If a service is running on multiple instances on different nodes, the requests will be load-balanced between nodes</ListItem></Appear>
-          </List>
-          <Appear><Image src={images.distributed} /></Appear>
+          <Layout>
+            <Fill>
+              <Heading size={3} caps>Transporter</Heading>
+              <List>
+                <Appear><ListItem>communicates with other nodes</ListItem></Appear>
+                <Appear><ListItem>It transfers events, calls requests, processes responses</ListItem></Appear>
+                <Appear><ListItem>If a service is running on multiple instances on different nodes, the requests will be load-balanced between nodes</ListItem></Appear>
+              </List>
+            </Fill>
+            <Fill>
+              <Heading size={3} caps>Gateway</Heading>
+              <List>
+                <Appear><ListItem>Use it to publish your services</ListItem></Appear>
+              </List>
+            </Fill>
+          </Layout>
+        </Slide>
+        <Slide>
+          <Heading size={3} caps>What we got</Heading>
+          <Image src={images.gateway} />
         </Slide>
         <Slide>
           <Heading size={3} caps>Show me the code</Heading>
@@ -217,16 +249,35 @@ export default class Presentation extends React.Component {
         </Slide>
         <Slide>
           <Heading size={3} caps>Take aways!</Heading>
-          <List>
-            <Appear><ListItem>Hay tres conceptos en arq orientada a microservicios: Service, Service Broker, Transporter</ListItem></Appear>
-            <Appear><ListItem>microservicio como un node module</ListItem></Appear>
-            <Appear><ListItem>las fronteras importan</ListItem></Appear>
-            <Appear><ListItem>escalabilidad + tolerante a fallos + autonomia</ListItem></Appear>
-            <Appear><ListItem>time * problem/solution = happiness</ListItem></Appear>
-          </List>
+          <Layout>
+            <Fill><Image src={images.take} /></Fill>
+            <Fill>
+              <List>
+                <Appear><ListItem>We'll always have: Service, Node, Service Broker, Transporter and Gateway</ListItem></Appear>
+                <Appear><ListItem>A microservice can be just a module</ListItem></Appear>
+                <Appear><ListItem>The frontier of our architecture matter</ListItem></Appear>
+                <Appear><ListItem>fault tolerant => easy deploy</ListItem></Appear>
+                <Appear><ListItem>time is precious, try to focus on your problem and the solution</ListItem></Appear>
+              </List>
+            </Fill>
+          </Layout>
         </Slide>
         <Slide>
-          <Heading size={3} caps>TIME</Heading>
+          <Heading size={2} caps>THE FUTURE IS DECENTRALIZED</Heading>
+          <Image src={images.desc} />
+        </Slide>
+        <Slide>
+          <Heading size={2} caps>Thanks</Heading>
+          <Layout>
+            <Fill>
+              <List>
+                <ListItem>twitter: @tinchoz49</ListItem>
+                <ListItem>github: tinchoz49</ListItem>
+                <ListItem>http://moleculer.services/</ListItem>
+              </List>
+            </Fill>
+            <Fill><Image src="https://pbs.twimg.com/profile_images/881389025478705152/T45s5fAL_400x400.jpg"/></Fill>
+          </Layout>
         </Slide>
       </Deck>
     );

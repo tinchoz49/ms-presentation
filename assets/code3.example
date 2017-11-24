@@ -1,63 +1,46 @@
 module.exports = {
   name: 'songs',
 
-  /**
-	 * Service settings
-	 */
   settings: {
 
   },
 
-  /**
-	 * Actions
-	 */
   actions: {
     async searchByTitle(ctx) {
       const { value } = ctx.params;
 
-      const songs = await ctx.call('musicExplorer.search', {
-        field: 'title',
-        value
-      });
+      const songs = await ctx.call(
+        'musicExplorer.search',
+        {
+          field: 'title',
+          value
+        }
+      );
 
       return songs;
     }
   },
 
-  /**
-	 * Events
-	 */
   events: {
-    // Subscribe to a local event
     '$node.connected'({ node }) {
-      this.logger.info(`Node '${node.id}' is connected!`);
+      this.logger.info(
+        `Node '${node.id}' is connected!`
+      );
     }
   },
 
-  /**
-	 * Methods
-	 */
   methods: {
-
+    doSomething() {}
   },
 
-  /**
-	 * Service created lifecycle event handler
-	 */
   created() {
 
   },
 
-  /**
-	 * Service started lifecycle event handler
-	 */
   started() {
 
   },
 
-  /**
-	 * Service stopped lifecycle event handler
-	 */
   stopped() {
 
   }

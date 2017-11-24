@@ -1,11 +1,16 @@
 const { ServiceBroker } = require('moleculer');
 
-const broker = new servicebroker({
-  nodeid: 'node-1',
+const broker = new ServiceBroker({
+  nodeID: 'node-1',
   logger: console
 });
 
-broker.createService(require('./services/songs'));
-broker.createService(require('./services/soundcloud'));
+broker.createService(
+    require('./services/songs')
+);
+
+broker.loadService(
+    './services/soundcloud'
+);
 
 broker.start();

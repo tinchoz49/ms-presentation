@@ -1,6 +1,9 @@
 // search songs
 function searchByTitle({ value }) {
-  const songs = MusicExplorer.search({ field: 'title', value });
+  const songs = MusicExplorer.search({
+    field: 'title',
+    value
+  });
 
   return { data: songs };
 }
