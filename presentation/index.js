@@ -104,6 +104,10 @@ export default class Presentation extends React.Component {
           <Diagram />
         </Slide>
         <Slide>
+          <Heading sice={3} caps>Music Explorer</Heading>
+          <Image src={images.musicExplorer} />
+        </Slide>
+        <Slide>
           <BlockQuote>
             <Quote>
             Microservices are <span style={{ backgroundColor: 'white', color: 'black' }}>small</span>, <span style={{ backgroundColor: 'white', color: 'black' }}>autonomous</span> services that <span style={{ backgroundColor: 'white', color: 'black' }}>work together</span>
@@ -126,11 +130,11 @@ export default class Presentation extends React.Component {
           ]}
         />
         <Slide>
-          <Heading size={3} caps>The "MusicExplorer Service" problem</Heading>
+          <Heading size={3} caps>The "Music Explorer Service" problem</Heading>
           <List>
             <Appear><ListItem>How can I found the service in the jungle</ListItem></Appear>
             <Appear><ListItem>How they communicate?</ListItem></Appear>
-            <Appear><ListItem>What happen if MusicExplorer is down?</ListItem></Appear>
+            <Appear><ListItem>What happen if Music Explorer is down?</ListItem></Appear>
             <Appear><ListItem>These are common issues BTW!</ListItem></Appear>
           </List>
         </Slide>
@@ -162,10 +166,6 @@ export default class Presentation extends React.Component {
             <Appear><ListItem>Transporter <i className="em em-electric_plug" /></ListItem></Appear>
             <Appear><ListItem>Gateway <i className="em em-door" /></ListItem></Appear>
           </List>
-        </Slide>
-        <Slide>
-          <Heading sice={3} caps>Music Explorer</Heading>
-          <Image src={images.musicExplorer} />
         </Slide>
         <CodeSlide
           transition={[]}
@@ -274,6 +274,8 @@ export default class Presentation extends React.Component {
                 <ListItem>twitter: @tinchoz49</ListItem>
                 <ListItem>github: tinchoz49</ListItem>
                 <ListItem>http://moleculer.services/</ListItem>
+                <ListItem>https://github.com/tinchoz49/ms-code</ListItem>
+                <ListItem>https://github.com/tinchoz49/ms-presentation</ListItem>
               </List>
             </Fill>
             <Fill><Image src="https://pbs.twimg.com/profile_images/881389025478705152/T45s5fAL_400x400.jpg"/></Fill>
